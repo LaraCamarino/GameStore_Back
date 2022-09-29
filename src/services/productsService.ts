@@ -21,3 +21,9 @@ async function verifyExistingCategory(category: string) {
     };
   }
 }
+
+export async function getAllProducts() {
+  const products = await productsRepository.getAllProducts();
+
+  return products;
+}

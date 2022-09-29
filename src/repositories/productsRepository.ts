@@ -13,3 +13,7 @@ export async function getAllCategories() {
     },
   });
 }
+
+export async function getAllProducts() {
+  return prisma.products.findMany({});
+}

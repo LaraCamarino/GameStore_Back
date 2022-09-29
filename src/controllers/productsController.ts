@@ -11,3 +11,9 @@ export async function getProductsByCategory(req: Request, res: Response) {
 
   res.status(200).send(products);
 }
+
+export async function getAllProducts(req: Request, res: Response) {
+  const products = await productsService.getAllProducts();
+
+  res.status(200).send(products);
+}
