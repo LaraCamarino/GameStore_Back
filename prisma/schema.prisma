@@ -16,4 +16,15 @@ model users {
   password  String
   username  String
   createdAt DateTime? @default(now()) @db.Timestamp(6)
+
+  sessions sessions[]
+}
+
+model sessions {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  token     String
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+
+  user users @relation(fields: [userId], references: [id])
 }
