@@ -28,3 +28,13 @@ model sessions {
 
   user users @relation(fields: [userId], references: [id])
 }
+
+model products {
+  id          Int     @id @default(autoincrement())
+  name        String
+  price       Decimal @db.Decimal(9, 2)
+  category    String
+  imageUrl    String
+  description String
+  inStock     Int
+}
