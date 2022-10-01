@@ -17,3 +17,9 @@ export async function getAllCategories() {
 export async function getAllProducts() {
   return prisma.products.findMany({});
 }
+
+export async function getProductById(id: number) {
+  return prisma.products.findUnique({
+    where: { id },
+  });
+}

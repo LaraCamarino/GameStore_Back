@@ -27,3 +27,15 @@ export async function getAllProducts() {
 
   return products;
 }
+
+export async function getProductById(id: number) {
+  const product = await productsRepository.getProductById(id);
+  if (!product) {
+    throw {
+      type: "not_found",
+      message: "No product was found.",
+    };
+  }
+
+  return product;
+}
