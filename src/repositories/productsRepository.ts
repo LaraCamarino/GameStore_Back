@@ -23,3 +23,14 @@ export async function getProductById(id: number) {
     where: { id },
   });
 }
+
+export async function getProductByName(name: string) {
+  return prisma.products.findMany({
+    where: {
+      name: {
+        startsWith: name,
+        mode: "insensitive",
+      },
+    },
+  });
+}

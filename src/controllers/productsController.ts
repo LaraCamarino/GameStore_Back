@@ -25,3 +25,11 @@ export async function getProductById(req: Request, res: Response) {
 
   res.status(200).send(product);
 }
+
+export async function getProductByName(req: Request, res: Response) {
+  const productName: string = req.params.productName;
+
+  const product = await productsService.getProductByName(productName);
+
+  res.status(200).send(product);
+}

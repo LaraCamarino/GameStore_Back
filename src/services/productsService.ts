@@ -39,3 +39,15 @@ export async function getProductById(id: number) {
 
   return product;
 }
+
+export async function getProductByName(name: string) {
+  const product = await productsRepository.getProductByName(name);
+  if (product.length === 0) {
+    throw {
+      type: "not_found",
+      message: "No product was found.",
+    };
+  }
+
+  return product;
+}
