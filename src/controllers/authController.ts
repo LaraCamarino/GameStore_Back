@@ -16,3 +16,10 @@ export async function signIn(req: Request, res: Response) {
   const userData = await authService.signIn(user);
   res.status(200).send(userData);
 }
+
+export async function signOut(req: Request, res: Response) {
+  const { id } = res.locals.user;
+
+  await authService.signOut(id);
+  res.status(200).send("User logged out successfully.");
+}

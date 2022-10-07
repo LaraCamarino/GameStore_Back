@@ -53,3 +53,7 @@ async function verifyExistingUser(email: string, password: string) {
 
   return existingUser;
 }
+
+export async function signOut(id: number) {
+  await authRepository.signOut(id);
+}

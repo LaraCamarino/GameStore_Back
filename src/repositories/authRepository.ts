@@ -19,3 +19,15 @@ export async function signIn(userData: TypeSession) {
     data: userData,
   });
 }
+
+export async function findSessionByUserId(userId: number, token: string) {
+  return prisma.sessions.findFirst({
+    where: { userId, token },
+  });
+}
+
+export async function signOut(id: number) {
+  return prisma.sessions.delete({
+    where: { id },
+  });
+}
