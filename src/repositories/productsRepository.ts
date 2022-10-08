@@ -28,8 +28,18 @@ export async function getProductByName(name: string) {
   return prisma.products.findMany({
     where: {
       name: {
-        startsWith: name,
+        contains: name,
         mode: "insensitive",
+      },
+    },
+  });
+}
+
+export async function getManyProductsById(idsArray) {
+  return prisma.products.findMany({
+    where: {
+      id: {
+        in: idsArray,
       },
     },
   });

@@ -30,11 +30,12 @@ model sessions {
 }
 
 model products {
-  id          Int     @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
-  price       Decimal @db.Decimal(9, 2)
+  price       Int
   category    String
   imageUrl    String
+  company     String
   description String
   inStock     Int
 }
