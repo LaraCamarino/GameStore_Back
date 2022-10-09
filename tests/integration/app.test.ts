@@ -1,5 +1,6 @@
-import { object } from "joi";
+import { not, object } from "joi";
 import supertest from "supertest";
+import { URL } from "url";
 
 import app from "../../src/app";
 import prisma from "../../src/dbStrategy/database";
@@ -185,5 +186,79 @@ describe("Test GET /products/search/:productName", () => {
 
     expect(result.status).toEqual(404);
     expect(result.text).toBe("No product was found.");
+  });
+});
+
+describe("Test POST /checkout", () => {
+  it("Should return an URL to the checkout page and statusCode 200", async () => {
+    const user = userFactory.createNewUser();
+
+    await supertest(app).post("/sign-up").send(user);
+
+    const loggedUser = await supertest(app)
+      .post("/sign-in")
+      .send({ email: user.email, password: user.password });
+
+    const token = loggedUser.body.token;
+    expect(token).not.toBeNull();
+
+    const items = [
+      {
+        productId: 1,
+        quantity: 2,
+      },
+      {
+        productId: 2,
+        quantity: 3,
+      },
+    ];
+
+    const result = await supertest(app)
+      .post("/checkout")
+      .set({ Authorization: `Bearer ${token}` })
+      .send(items);
+
+    expect(result.status).toEqual(200);
+    expect(result.text).not.toBeNull();
+  });
+
+  it("If no token is sent, should return statusCode 404", async () => {
+    const items = [
+      {
+        productId: 1,
+        quantity: 2,
+      },
+      {
+        productId: 2,
+        quantity: 3,
+      },
+    ];
+
+    const result = await supertest(app).post("/checkout").set({}).send(items);
+
+    expect(result.status).toEqual(404);
+    expect(result.text).toBe("No token key was sent.");
+  });
+
+  it("If the token sent is invalid, should return statusCode 401", async () => {
+    const invalidToken = "invalid_token";
+    const items = [
+      {
+        productId: 1,
+        quantity: 2,
+      },
+      {
+        productId: 2,
+        quantity: 3,
+      },
+    ];
+
+    const result = await supertest(app)
+      .post("/checkout")
+      .set({ Authorization: `Bearer ${invalidToken}` })
+      .send(items);
+
+    expect(result.status).toEqual(401);
+    expect(result.text).toBe("Invalid token.");
   });
 });
