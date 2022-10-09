@@ -1,6 +1,4 @@
-import { not, object } from "joi";
 import supertest from "supertest";
-import { URL } from "url";
 
 import app from "../../src/app";
 import prisma from "../../src/dbStrategy/database";
