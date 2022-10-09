@@ -157,7 +157,7 @@ describe("Test GET /products/:productId", () => {
     expect(result.body).toBeInstanceOf(Object);
   });
 
-  it("If the ID does not correspond to any product, should return statusCode 404", async () => {
+  it("If the ID does not correspond to any products, should return statusCode 404", async () => {
     const productId = 0;
 
     const result = await supertest(app).get(`/products/${productId}`);
