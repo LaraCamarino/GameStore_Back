@@ -1,5 +1,11 @@
 import * as productsRepository from "../repositories/productsRepository.js";
 
+export async function getAllProducts() {
+  const products = await productsRepository.getAllProducts();
+
+  return products;
+}
+
 export async function getProductsByCategory(category: string) {
   await verifyExistingCategory(category);
 
@@ -20,12 +26,6 @@ async function verifyExistingCategory(category: string) {
       message: "Non-existing category.",
     };
   }
-}
-
-export async function getAllProducts() {
-  const products = await productsRepository.getAllProducts();
-
-  return products;
 }
 
 export async function getProductById(id: number) {

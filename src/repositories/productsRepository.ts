@@ -1,9 +1,7 @@
 import prisma from "../dbStrategy/database.js";
 
-export async function getProductsByCategory(category: string) {
-  return prisma.products.findMany({
-    where: { category },
-  });
+export async function getAllProducts() {
+  return prisma.products.findMany({});
 }
 
 export async function getAllCategories() {
@@ -14,8 +12,10 @@ export async function getAllCategories() {
   });
 }
 
-export async function getAllProducts() {
-  return prisma.products.findMany({});
+export async function getProductsByCategory(category: string) {
+  return prisma.products.findMany({
+    where: { category },
+  });
 }
 
 export async function getProductById(id: number) {
@@ -30,16 +30,6 @@ export async function getProductByName(name: string) {
       name: {
         contains: name,
         mode: "insensitive",
-      },
-    },
-  });
-}
-
-export async function getManyProductsById(idsArray) {
-  return prisma.products.findMany({
-    where: {
-      id: {
-        in: idsArray,
       },
     },
   });

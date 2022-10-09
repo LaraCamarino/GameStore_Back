@@ -1,3 +1,4 @@
+import { object } from "joi";
 import supertest from "supertest";
 
 import app from "../../src/app";
@@ -115,5 +116,74 @@ describe("Test DELETE /sign-out", () => {
 
     expect(result.status).toEqual(401);
     expect(result.text).toBe("Invalid token.");
+  });
+});
+
+describe("Test GET /products", () => {
+  it("Should return array with all the products and statusCode 200", async () => {
+    const result = await supertest(app).get("/products");
+
+    expect(result.status).toEqual(200);
+    expect(result.body).toBeInstanceOf(Array);
+  });
+});
+
+describe("Test GET /products/categories/:category", () => {
+  it("Should return array with all the products of the given category and statusCode 200", async () => {
+    const category = "sports";
+
+    const result = await supertest(app).get(`/products/categories/${category}`);
+
+    expect(result.status).toEqual(200);
+    expect(result.body).toBeInstanceOf(Array);
+  });
+
+  it("If category does not exist, should return statusCode 404", async () => {
+    const category = "non_existing_category";
+
+    const result = await supertest(app).get(`/products/categories/${category}`);
+
+    expect(result.status).toEqual(404);
+    expect(result.text).toBe("Non-existing category.");
+  });
+});
+
+describe("Test GET /products/:productId", () => {
+  it("Should return the product that corresponds to the given ID and statusCode 200", async () => {
+    const productId = 1;
+
+    const result = await supertest(app).get(`/products/${productId}`);
+
+    expect(result.status).toEqual(200);
+    expect(result.body).toBeInstanceOf(Object);
+  });
+
+  it("If the ID does not correspond to any product, should return statusCode 404", async () => {
+    const productId = 0;
+
+    const result = await supertest(app).get(`/products/${productId}`);
+
+    expect(result.status).toEqual(404);
+    expect(result.text).toBe("No product was found.");
+  });
+});
+
+describe("Test GET /products/search/:productName", () => {
+  it("Should return an array with the products whose names include the searched word and statusCode 200", async () => {
+    const productName = "The";
+
+    const result = await supertest(app).get(`/products/search/${productName}`);
+
+    expect(result.status).toEqual(200);
+    expect(result.body).toBeInstanceOf(Array);
+  });
+
+  it("If the searched word does not match any of the products name, should return statusCode 404", async () => {
+    const productName = "no_matches_at_all";
+
+    const result = await supertest(app).get(`/products/search/${productName}`);
+
+    expect(result.status).toEqual(404);
+    expect(result.text).toBe("No product was found.");
   });
 });
