@@ -14,7 +14,11 @@ export default async function validateSignUp(
     username: joi.string().pattern(usernameRegex).required(),
     email: joi.string().email().required(),
     password: joi.string().pattern(passwordRegex).required(),
-    confirmPassword: joi.string().valid(joi.ref("password")).required(),
+    confirmPassword: joi
+      .string()
+      .valid(joi.ref("password"))
+      .required()
+      .messages({ "any.only": "Password and confirmPassword don't match." }),
   });
 
   const validation = newUserSchema.validate(newUser, { abortEarly: false });
