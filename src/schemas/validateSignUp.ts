@@ -7,7 +7,7 @@ export default async function validateSignUp(
   next: NextFunction
 ) {
   const newUser = req.body;
-  const usernameRegex = /^[a-zA-Z]{2,15}$/;
+  const usernameRegex = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]{2,15}$/;
   const passwordRegex = /^.{8,}$/;
 
   const newUserSchema = joi.object({
